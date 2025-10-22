@@ -1,0 +1,161 @@
+import SwiftUI
+import FirebaseAnalytics
+import BridgeeSDK
+
+struct ContentView: View {
+    @State private var name = ""
+    @State private var email = ""
+    @State private var phone = ""
+    @State private var showMessage = false
+    @State private var alertTitle = ""
+    @State private var alertMessage = ""
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            // Header
+            VStack(spacing: 8) {
+                Text("Bridgee iOS SDK")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .foregroundColor(.primary)
+                
+                Text("First Open Simulator")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+            }
+            .padding(.top, 60)
+            .padding(.bottom, 40)
+            
+            // Form Container
+            VStack(spacing: 20) {
+                // Name Field
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Name")
+                        .font(.headline)
+                        .foregroundColor(.primary)
+                    
+                    TextField("Enter your name", text: $name)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .font(.body)
+                }
+                
+                // Email Field
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Email")
+                        .font(.headline)
+                        .foregroundColor(.primary)
+                    
+                    TextField("Enter your email", text: $email)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .keyboardType(.emailAddress)
+                        .autocapitalization(.none)
+                        .font(.body)
+                }
+                
+                // Phone Field
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Phone")
+                        .font(.headline)
+                        .foregroundColor(.primary)
+                    
+                    TextField("Enter your phone", text: $phone)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .keyboardType(.phonePad)
+                        .font(.body)
+                }
+            }
+            .padding(.horizontal, 30)
+            .padding(.bottom, 40)
+            
+            // Send Button
+            Button(action: {
+                sendCustomFirstOpenEvent()
+            }) {
+                Text("Bridgee First Open")
+                    .font(.title2)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 16)
+                    .background(Color.blue)
+                    .cornerRadius(12)
+            }
+            .padding(.horizontal, 30)
+            
+            Spacer()
+        }
+        .background(Color(.systemGroupedBackground))
+        .alert(isPresented: $showMessage) {
+            Alert(
+                title: Text(alertTitle),
+                message: Text(alertMessage),
+                dismissButton: .default(Text("OK"))
+            )
+        }
+    }
+    
+    
+    private func sendCustomFirstOpenEvent() {
+        // Create the MatchBundle with user data
+        var matchBundle = MatchBundle()
+        
+        if !name.isEmpty {
+            matchBundle.set(name: name)
+        }
+        
+        if !email.isEmpty {
+            matchBundle.set(email: email)
+        }
+        
+        if !phone.isEmpty {
+            matchBundle.set(phone: phone)
+        }
+        
+        // Call BridgeeSDK firstOpen with the MatchBundle
+        BridgeeSDK.shared.firstOpen(with: matchBundle) { utmData in
+            DispatchQueue.main.async {
+                if let utmData = utmData {
+                    // Success - show UTMs
+                    self.alertTitle = "✅ Success!"
+                    self.alertMessage = self.formatSuccessMessage(utmData: utmData)
+                    print("🌉 BridgeeSDK firstOpen completed successfully")
+                    print("📊 UTM Source: \(utmData.utm_source ?? "nil")")
+                    print("📊 UTM Medium: \(utmData.utm_medium ?? "nil")")
+                    print("📊 UTM Campaign: \(utmData.utm_campaign ?? "nil")")
+                } else {
+                    // Error - show error message
+                    self.alertTitle = "❌ Error"
+                    self.alertMessage = "First Open without Match - No UTM Data"
+                    print("❌ BridgeeSDK firstOpen failed or returned nil")
+                }
+                self.showMessage = true
+            }
+        }
+        
+        print("🌉 BridgeeSDK firstOpen called")
+        print("📊 Name: \(name.isEmpty ? "nil" : name)")
+        print("📊 Email: \(email.isEmpty ? "nil" : email)")
+        print("📊 Phone: \(phone.isEmpty ? "nil" : phone)")
+        print("✅ Event sent via BridgeeSDK")
+    }
+    
+    private func formatSuccessMessage(utmData: UTMData) -> String {
+        var message = "UTM data:\n\n"
+        
+        let utmSource = utmData.utm_source ?? "N/A"
+        let utmMedium = utmData.utm_medium ?? "N/A"
+        let utmCampaign = utmData.utm_campaign ?? "N/A"
+        
+        message += "UTM Source: \(utmSource)\n"
+        message += "UTM Medium: \(utmMedium)\n"
+        message += "UTM Campaign: \(utmCampaign)"
+        
+        return message
+    }
+}
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
+}
