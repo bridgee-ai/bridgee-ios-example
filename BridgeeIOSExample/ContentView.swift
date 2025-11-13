@@ -97,7 +97,7 @@ struct ContentView: View {
     
     private func sendCustomFirstOpenEvent() {
         // Create the MatchBundle with user data
-        var matchBundle = MatchBundle()
+        let matchBundle = MatchBundle()
         
         if !name.isEmpty {
             matchBundle.set(name: name)
@@ -112,21 +112,21 @@ struct ContentView: View {
         }
         
         // Call BridgeeSDK firstOpen with the MatchBundle
-        BridgeeSDK.shared.firstOpen(with: matchBundle) { utmData in
+        BridgeeSDK.shared.firstOpen(with: matchBundle) { utmData, error in
             DispatchQueue.main.async {
                 if let utmData = utmData {
                     // Success - show UTMs
                     self.alertTitle = "✅ Success!"
                     self.alertMessage = self.formatSuccessMessage(utmData: utmData)
                     print("🌉 BridgeeSDK firstOpen completed successfully")
-                    print("📊 UTM Source: \(utmData.utm_source ?? "nil")")
-                    print("📊 UTM Medium: \(utmData.utm_medium ?? "nil")")
-                    print("📊 UTM Campaign: \(utmData.utm_campaign ?? "nil")")
+                    print("📊 UTM Source: \(utmData.utm_source)")
+                    print("📊 UTM Medium: \(utmData.utm_medium)")
+                    print("📊 UTM Campaign: \(utmData.utm_campaign)")
                 } else {
                     // Error - show error message
                     self.alertTitle = "❌ Error"
-                    self.alertMessage = "First Open without Match - No UTM Data"
-                    print("❌ BridgeeSDK firstOpen failed or returned nil")
+                    self.alertMessage = error ?? "First Open without Match - No UTM Data"
+                    print("❌ BridgeeSDK firstOpen failed: \(error ?? "Unknown error")")
                 }
                 self.showMessage = true
             }
@@ -142,13 +142,9 @@ struct ContentView: View {
     private func formatSuccessMessage(utmData: UTMData) -> String {
         var message = "UTM data:\n\n"
         
-        let utmSource = utmData.utm_source ?? "N/A"
-        let utmMedium = utmData.utm_medium ?? "N/A"
-        let utmCampaign = utmData.utm_campaign ?? "N/A"
-        
-        message += "UTM Source: \(utmSource)\n"
-        message += "UTM Medium: \(utmMedium)\n"
-        message += "UTM Campaign: \(utmCampaign)"
+        message += "UTM Source: \(utmData.utm_source)\n"
+        message += "UTM Medium: \(utmData.utm_medium)\n"
+        message += "UTM Campaign: \(utmData.utm_campaign)"
         
         return message
     }

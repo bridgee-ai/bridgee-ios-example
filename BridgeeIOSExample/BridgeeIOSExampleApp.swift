@@ -26,7 +26,8 @@ struct BridgeeIOSExampleApp: App {
 }
 
 // Provider that implements AnalyticsProvider using Firebase
-class FirebaseAnalyticsProvider: AnalyticsProvider {
+@objc
+class FirebaseAnalyticsProvider: NSObject, AnalyticsProvider {
     func setUserProperty(name: String, value: String?) {
         Analytics.setUserProperty(value, forName: name)
     }

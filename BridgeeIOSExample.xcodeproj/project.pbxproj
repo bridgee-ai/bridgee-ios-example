@@ -3,13 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 60;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		A1234567890ABCDEF001 /* BridgeeIOSExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890ABCDEF002 /* BridgeeIOSExampleApp.swift */; };
 		A1234567890ABCDEF003 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890ABCDEF004 /* ContentView.swift */; };
-		A1234567890ABCDEF020 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A1234567890ABCDEF021 /* GoogleService-Info.plist */; };
+		A32CDFB52EC56A8E00C6E228 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A32CDFB42EC56A8E00C6E228 /* GoogleService-Info.plist */; };
 		A33FA58D2EA8730900FD73E9 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = A33FA58C2EA8730900FD73E9 /* FirebaseAnalytics */; };
 		A33FA58F2EA8730900FD73E9 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = A33FA58E2EA8730900FD73E9 /* FirebaseCore */; };
 		A33FA5922EA8751000FD73E9 /* BridgeeSDK in Frameworks */ = {isa = PBXBuildFile; productRef = A33FA5912EA8751000FD73E9 /* BridgeeSDK */; };
@@ -19,7 +19,7 @@
 		A1234567890ABCDEF000 /* BridgeeIOSExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BridgeeIOSExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1234567890ABCDEF002 /* BridgeeIOSExampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BridgeeIOSExampleApp.swift; sourceTree = "<group>"; };
 		A1234567890ABCDEF004 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		A1234567890ABCDEF021 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		A32CDFB42EC56A8E00C6E228 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,9 +47,9 @@
 		A1234567890ABCDEF007 /* BridgeeIOSExample */ = {
 			isa = PBXGroup;
 			children = (
+				A32CDFB42EC56A8E00C6E228 /* GoogleService-Info.plist */,
 				A1234567890ABCDEF002 /* BridgeeIOSExampleApp.swift */,
 				A1234567890ABCDEF004 /* ContentView.swift */,
-				A1234567890ABCDEF021 /* GoogleService-Info.plist */,
 			);
 			path = BridgeeIOSExample;
 			sourceTree = "<group>";
@@ -129,7 +129,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A1234567890ABCDEF020 /* GoogleService-Info.plist in Resources */,
+				A32CDFB52EC56A8E00C6E228 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -346,7 +346,6 @@
 		};
 /* End XCConfigurationList section */
 
-
 /* Begin XCRemoteSwiftPackageReference section */
 		A33FA58B2EA8729500FD73E9 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -361,7 +360,7 @@
 			repositoryURL = "https://github.com/bridgee-ai/bridgee-ios-sdk";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
+				minimumVersion = 1.1.1;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
