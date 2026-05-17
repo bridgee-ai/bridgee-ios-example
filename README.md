@@ -170,10 +170,12 @@ BridgeeIOSExample/
 - **DryRun**: Defina como `true` para testes, `false` para produção
 
 ### MatchBundle
-Usado para passar dados do usuário para o SDK:
+Usado para passar dados do usuário para o SDK. **Todos os campos são opcionais** — o SDK resolve atribuição mesmo com um bundle vazio, mas mais dados = maior confiança no match:
 - `set(name: String)` - Nome do usuário
 - `set(email: String)` - Email do usuário
 - `set(phone: String)` - Telefone do usuário
+
+> 🔗 **Importante:** os mesmos parâmetros enviados aqui devem ser propagados nas URLs de captura (os **blinks**, ex.: `https://ios.seuapp.com.br/?email=...&phone=...&utm_source=...`). O servidor Bridgee compara os sinais dos dois lados (clique vs. instalação) — quanto maior a interseção, mais eficiente e preciso o match.
 
 ### Resposta UTMData
 Contém informações de atribuição:
@@ -186,6 +188,15 @@ Contém informações de atribuição:
 - Nunca faça commit de arquivos reais `GoogleService-Info.plist` no controle de versão
 - Mantenha suas credenciais de tenant da Bridgee seguras
 - Use variáveis de ambiente ou configuração segura para apps de produção
+
+## 🆘 Troubleshooting
+
+- **Crash com `The default Firebase app has not yet been configured`** → o `GoogleService-Info.plist` real não foi adicionado ao target do app no Xcode. Arraste o arquivo para o projeto e marque a checkbox do target `BridgeeIOSExample`.
+- **`No such module 'BridgeeSDK'`** → force o SPM a resolver de novo: **File > Packages > Reset Package Caches** e depois **Resolve Package Versions**.
+- **Signing error / bundle ID duplicado** → em **Signing & Capabilities**, troque o bundle para algo único (ex.: `com.example.BridgeeIOSExample.seunome`) e selecione seu Team Apple.
+- **App não abre no iPhone físico** → na primeira execução: **Ajustes > Geral > VPN e Gerenciamento de Dispositivos > [seu perfil] > Confiar**.
+- **Build falha com `deployment target`** → confirme que o target do app está em **iOS 14.0+**. O SDK não suporta versões anteriores.
+- **App não recebe UTMs mesmo em produção** → valide no Firebase Analytics DebugView se os dados de aquisição estão chegando (o SDK cuida de propagar os UTMs para o provedor de analytics automaticamente).
 
 ## 📚 Recursos Adicionais
 
