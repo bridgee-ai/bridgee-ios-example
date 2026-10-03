@@ -4,7 +4,7 @@ import PackageDescription
 let package = Package(
     name: "BridgeeIOSExample",
     platforms: [
-        .iOS(.v14)
+        .iOS(.v15)
     ],
     dependencies: [
         .package(url: "https://github.com/firebase/firebase-ios-sdk", from: "10.18.0")
