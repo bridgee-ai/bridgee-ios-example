@@ -1,0 +1,10 @@
+name: Build iOS example
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: xcodebuild -project BridgeeIOSExample.xcodeproj -scheme BridgeeIOSExample -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build

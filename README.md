@@ -14,7 +14,7 @@ Um aplicativo iOS completo que demonstra como integrar e usar o **Bridgee SDK** 
 ## 📋 Requisitos
 
 - **Xcode 15.0+**
-- **iOS 14.0+**
+- **iOS 15.0+**
 - **Swift 5.0+**
 - **Projeto Firebase** (para provedor de analytics)
 
@@ -195,7 +195,7 @@ Contém informações de atribuição:
 - **`No such module 'BridgeeSDK'`** → force o SPM a resolver de novo: **File > Packages > Reset Package Caches** e depois **Resolve Package Versions**.
 - **Signing error / bundle ID duplicado** → em **Signing & Capabilities**, troque o bundle para algo único (ex.: `com.example.BridgeeIOSExample.seunome`) e selecione seu Team Apple.
 - **App não abre no iPhone físico** → na primeira execução: **Ajustes > Geral > VPN e Gerenciamento de Dispositivos > [seu perfil] > Confiar**.
-- **Build falha com `deployment target`** → confirme que o target do app está em **iOS 14.0+**. O SDK não suporta versões anteriores.
+- **Build falha com `deployment target`** → confirme que o target do app está em **iOS 15.0+**. O SDK não suporta versões anteriores.
 - **App não recebe UTMs mesmo em produção** → valide no Firebase Analytics DebugView se os dados de aquisição estão chegando (o SDK cuida de propagar os UTMs para o provedor de analytics automaticamente).
 
 ## 📚 Recursos Adicionais
@@ -214,3 +214,9 @@ Contém informações de atribuição:
 ## 📄 Licença
 
 Este projeto de exemplo está disponível sob a Licença MIT.
+
+## Teste de consentimento e atribuição
+
+O botão começa desativado. A opção de consentimento libera a consulta; Google nativo preservado impede consulta. O provider bloqueia campanha/propriedades após revogação e filtra first_open/purchase das versões legadas. O exemplo usa dryRun e mantém o pin publicado do SDK. Substitua os placeholders locais antes de executar a jornada em aparelho. O target mínimo é iOS 15, compatível com Firebase 12 do projeto Xcode.
+
+O plist vazio permite compilar o exemplo e o CI sem credenciais. Ele não configura Firebase: para executar o app é obrigatório substituir o arquivo pela configuração do projeto real.

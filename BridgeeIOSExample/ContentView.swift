@@ -3,6 +3,8 @@ import FirebaseAnalytics
 import BridgeeSDK
 
 struct ContentView: View {
+    @State private var consentGranted = false
+    @State private var nativeGoogle = false
     @State private var name = ""
     @State private var email = ""
     @State private var phone = ""
@@ -67,11 +69,17 @@ struct ContentView: View {
             .padding(.horizontal, 30)
             .padding(.bottom, 40)
             
+            Toggle("Permitir atribuição neste teste", isOn: $consentGranted)
+                .onChange(of: consentGranted) { ExampleAttributionPolicy.consentGranted = $0 }
+            Toggle("Preservar atribuição nativa Google", isOn: $nativeGoogle)
+                .onChange(of: nativeGoogle) { ExampleAttributionPolicy.preserveNativeGoogle = $0 }
+            Text("Dry run. Firebase controla first_open; consulta não confirma instalação.")
+                .font(.footnote)
             // Send Button
             Button(action: {
                 sendCustomFirstOpenEvent()
             }) {
-                Text("Bridgee First Open")
+                Text("Consultar atribuição")
                     .font(.title2)
                     .fontWeight(.semibold)
                     .foregroundColor(.white)
@@ -81,6 +89,7 @@ struct ContentView: View {
                     .cornerRadius(12)
             }
             .padding(.horizontal, 30)
+            .disabled(!consentGranted || nativeGoogle)
             
             Spacer()
         }
@@ -96,6 +105,7 @@ struct ContentView: View {
     
     
     private func sendCustomFirstOpenEvent() {
+        guard ExampleAttributionPolicy.allowed else { return }
         // Create the MatchBundle with user data
         let matchBundle = MatchBundle()
         
@@ -133,10 +143,7 @@ struct ContentView: View {
         }
         
         print("🌉 BridgeeSDK firstOpen called")
-        print("📊 Name: \(name.isEmpty ? "nil" : name)")
-        print("📊 Email: \(email.isEmpty ? "nil" : email)")
-        print("📊 Phone: \(phone.isEmpty ? "nil" : phone)")
-        print("✅ Event sent via BridgeeSDK")
+
     }
     
     private func formatSuccessMessage(utmData: UTMData) -> String {
